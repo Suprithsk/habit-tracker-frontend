@@ -1,7 +1,8 @@
 import { Target } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 export default function Navbar() {
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function Navbar() {
           <a href="#testimonials" className="text-gray-600 hover:text-blue-500 transition-colors font-medium">
             Testimonials
           </a>
-          <button className="bg-blue-500 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-blue-600 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
+          <button onClick={() => navigate("/login")} className="bg-blue-500 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-blue-600 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
             Get Started
           </button>
         </div>
