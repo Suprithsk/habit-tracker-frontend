@@ -10,7 +10,7 @@ import { Analytics } from "@vercel/analytics/react"
 const Index = () => {
   return (
     <>
-      <Analytics />
+      
       <Navbar />
       <Hero />
       <HowItWorks />
@@ -18,6 +18,7 @@ const Index = () => {
       <Testimonials />
       <CTA />
       <Footer />
+      <Analytics />
     </>
   );
 };
