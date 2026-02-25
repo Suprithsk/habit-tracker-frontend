@@ -15,7 +15,7 @@ const steps = [
   },
   {
     icon: Trophy,
-    title: 'Earn Streaks & Badges',
+    title: 'Earn Streaks',
     description: 'Unlock achievements and build momentum as you hit milestones.',
     color: 'from-yellow-500 to-yellow-600',
   },

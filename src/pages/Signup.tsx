@@ -199,17 +199,6 @@ const Signup = () => {
           </Form>
         </Card>
 
-        {/* Footer */}
-        <p className="text-center text-xs text-gray-400 mt-6">
-          By signing up, you agree to our{" "}
-          <Link to="/terms" className="hover:text-blue-600 underline">
-            Terms of Service
-          </Link>{" "}
-          and{" "}
-          <Link to="/privacy" className="hover:text-blue-600 underline">
-            Privacy Policy
-          </Link>
-        </p>
       </div>
     </div>
   );

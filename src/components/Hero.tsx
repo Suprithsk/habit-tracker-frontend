@@ -9,7 +9,7 @@ export default function Hero() {
           <div className="space-y-8 animate-fade-in">
             <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold">
               <Flame className="w-4 h-4" />
-              Join 10,000+ habit builders
+              Start building better habits today
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">

@@ -73,7 +73,7 @@ const Sidebar = ({ isOpen = true, onClose }: SidebarProps) => {
         </div>
 
         {/* Logo */}
-        <Link to="/dashboard" className="p-6 border-b border-gray-800" onClick={handleNavigation}>
+        <Link to="/" className="p-6 border-b border-gray-800" onClick={handleNavigation}>
           <div className="flex items-center gap-3">
             <div className="bg-gradient-to-r from-blue-500 to-indigo-500 p-2 rounded-xl">
               <Target className="w-6 h-6 text-white" />

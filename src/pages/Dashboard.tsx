@@ -165,7 +165,7 @@ const Dashboard = () => {
                   <div className="flex flex-col items-center py-8 text-center">
                     <Trophy className="w-12 h-12 text-gray-200 mb-3" />
                     <p className="text-gray-500 text-sm mb-4">You haven't joined any challenges yet.</p>
-                    <Link to="/challenges">
+                    <Link to="/all-challenges">
                       <Button size="sm" className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
                         <Plus className="w-4 h-4 mr-1" />
                         Browse Challenges
@@ -325,7 +325,7 @@ const Dashboard = () => {
                   <p className="text-sm text-gray-500">Join community challenges and stay motivated</p>
                 </div>
               </div>
-              <Link to="/challenges" className="w-full sm:w-auto">
+              <Link to="/all-challenges" className="w-full sm:w-auto">
                 <Button className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold">
                   View All Challenges
                   <ArrowRight className="w-4 h-4 ml-2" />

@@ -205,7 +205,7 @@ const MyChallenges = () => {
               <p className="text-gray-600 mb-6 text-center max-w-md">
                 You haven't joined any challenges yet. Start your journey today!
               </p>
-              <Link to="/challenges">
+              <Link to="/all-challenges">
                 <Button className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold px-8 py-6">
                   Explore Challenges
                 </Button>

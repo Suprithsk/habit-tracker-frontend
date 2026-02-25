@@ -33,7 +33,7 @@ export default function CTA() {
             </div>
 
             <p className="text-blue-100 text-sm">
-              No credit card required • Free to start • Join 10,000+ users
+              No credit card required • Free to start • Build habits that last
             </p>
           </div>
         </div>

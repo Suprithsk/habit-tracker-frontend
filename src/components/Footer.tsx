@@ -46,7 +46,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-6 border-t border-gray-100 text-center text-sm text-gray-500">
-          Built with love by{' '}
+          Built with ❤️ by{' '}
           <a
             href="https://www.linkedin.com/in/suprithsk/"
             target="_blank"

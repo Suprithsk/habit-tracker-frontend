@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   Trophy,
   Flame,
@@ -83,12 +83,12 @@ const PublicProfile = () => {
       {/* Top nav bar */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3">
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <div className="bg-gradient-to-r from-blue-500 to-indigo-500 p-1.5 rounded-lg">
               <Target className="w-4 h-4 text-white" />
             </div>
             <span className="font-bold text-gray-900">HabitQuest</span>
-          </div>
+          </Link>
         </div>
       </div>
 
