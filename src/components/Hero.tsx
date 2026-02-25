@@ -1,4 +1,5 @@
 import { ArrowRight, Flame, CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -26,13 +27,13 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="group bg-blue-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-2">
+              <Link to="/register" className="group bg-blue-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-2">
                 Start Your Challenge
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="bg-white text-gray-700 px-8 py-4 rounded-full font-bold text-lg border-2 border-gray-200 hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+              </Link>
+              <Link to="/register" className="bg-white text-gray-700 px-8 py-4 rounded-full font-bold text-lg border-2 border-gray-200 hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex items-center justify-center">
                 View Challenges
-              </button>
+              </Link>
             </div>
           </div>
 

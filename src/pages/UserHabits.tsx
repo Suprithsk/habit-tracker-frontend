@@ -121,7 +121,7 @@ const UserHabits = () => {
 
       <main className="flex-1 overflow-y-auto">
         {/* Mobile Header */}
-        <div className="lg:hidden sticky top-0 z-30 bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-4">
+        <div className="lg:hidden sticky top-0 z-30 bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3">
           <Button
             variant="ghost"
             size="icon"
@@ -130,7 +130,15 @@ const UserHabits = () => {
           >
             <Menu className="w-6 h-6" />
           </Button>
-          <h1 className="text-xl font-bold text-gray-900">My Habits</h1>
+          <h1 className="text-xl font-bold text-gray-900 flex-1">My Habits</h1>
+          <Button
+            size="sm"
+            onClick={() => setShowForm((v) => !v)}
+            className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold"
+          >
+            <Plus className="w-4 h-4 mr-1" />
+            New
+          </Button>
         </div>
 
         <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
@@ -150,7 +158,7 @@ const UserHabits = () => {
           </div>
 
           {/* Stats Row */}
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
             <Card className="border-2 border-gray-200">
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="p-2 bg-green-100 rounded-lg">
@@ -175,7 +183,7 @@ const UserHabits = () => {
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-2 border-gray-200">
+            <Card className="col-span-2 sm:col-span-1 border-2 border-gray-200">
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="p-2 bg-blue-100 rounded-lg">
                   <TrendingUp className="w-5 h-5 text-blue-600" />

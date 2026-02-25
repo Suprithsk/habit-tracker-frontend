@@ -1,4 +1,5 @@
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function CTA() {
   return (
@@ -25,10 +26,10 @@ export default function CTA() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <button className="group bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-2">
+              <Link to="/register" className="group bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-2">
                 Join a Challenge
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
             </div>
 
             <p className="text-blue-100 text-sm">
