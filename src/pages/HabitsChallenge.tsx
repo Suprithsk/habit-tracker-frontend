@@ -143,6 +143,22 @@ const HabitsChallenge = () => {
             </div>
           ) : (
             <>
+          {/* Today Completed Banner */}
+          {todayCompleted && userChallenge?.status !== "completed" && (
+            <div className="mb-6 flex items-start gap-4 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-5">
+              <div className="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                <CheckCircle2 className="w-5 h-5 text-green-600" />
+              </div>
+              <div>
+                <p className="font-semibold text-green-800 text-base">
+                  Adding new habits is disabled after you've completed your first day.
+                </p>
+                <p className="text-sm text-green-700 mt-0.5">
+                  You've finished all habits for today. Come back tomorrow to keep your streak going!
+                </p>
+              </div>
+            </div>
+          )}
           {/* Completed Banner */}
           {userChallenge?.status === "completed" && (
             <div className="mb-6 rounded-2xl overflow-hidden border-2 border-emerald-200">
@@ -315,10 +331,15 @@ const HabitsChallenge = () => {
                   <CheckCircle2 className="w-5 h-5 text-blue-500" />
                   Today's Habits
                 </CardTitle>
-                <Link to={`/my-challenges/${challengeId}/create-habits`}>
+                <Link
+                  to={`/my-challenges/${challengeId}/create-habits`}
+                  onClick={(e) => (todayCompleted || userChallenge?.status === "completed") && e.preventDefault()}
+                  className={(todayCompleted || userChallenge?.status === "completed") ? "pointer-events-none" : ""}
+                >
                   <Button
                     size="sm"
-                    disabled={userChallenge?.status === "completed"}
+                    disabled={todayCompleted || userChallenge?.status === "completed"}
+                    title={todayCompleted ? "Adding habits is disabled after today's session is complete" : undefined}
                     className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white disabled:opacity-50"
                   >
                     <Plus className="w-4 h-4 mr-1" />
@@ -334,12 +355,14 @@ const HabitsChallenge = () => {
                     <p className="text-sm mt-2 mb-4">
                       Add habits to start tracking your progress.
                     </p>
-                    <Link to={`/my-challenges/${challengeId}/create-habits`}>
-                      <Button className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add Your First Habit
-                      </Button>
-                    </Link>
+                    {!todayCompleted && userChallenge?.status !== "completed" && (
+                      <Link to={`/my-challenges/${challengeId}/create-habits`}>
+                        <Button className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white">
+                          <Plus className="w-4 h-4 mr-2" />
+                          Add Your First Habit
+                        </Button>
+                      </Link>
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-3">

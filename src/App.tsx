@@ -29,20 +29,52 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/all-challenges" element={<AllChallenges />} />
-          <Route path="/my-challenges" element={<MyChallenges />} />
+          <Route
+            path="/all-challenges"
+            element={
+              <ProtectedRoute>
+                <AllChallenges />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-challenges"
+            element={
+              <ProtectedRoute>
+                <MyChallenges />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/my-challenges/:challengeId"
             element={
+              <ProtectedRoute>
                 <HabitsChallenge />
+              </ProtectedRoute>
             }
           />
-          <Route path="/my-habits" element={<UserHabits />} />
-          <Route path="/my-habits/:habitId/analytics" element={<HabitAnalytics />} />
+          <Route
+            path="/my-habits"
+            element={
+              <ProtectedRoute>
+                <UserHabits />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-habits/:habitId/analytics"
+            element={
+              <ProtectedRoute>
+                <HabitAnalytics />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/my-challenges/:challengeId/create-habits"
             element={
+              <ProtectedRoute>
                 <CreateHabits />
+              </ProtectedRoute>
             }
           />
         </Routes>

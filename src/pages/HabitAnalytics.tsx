@@ -12,69 +12,9 @@ import {
   CheckCircle2,
   Calendar,
   Target,
+  Loader2,
 } from "lucide-react";
-
-const DUMMY_ANALYTICS: Record<
-  string,
-  {
-    habit: {
-      id: string;
-      title: string;
-      description?: string;
-      color: string;
-      isArchived: boolean;
-      createdAt: string;
-    };
-    analytics: {
-      currentStreak: number;
-      longestStreak: number;
-      totalCompletions: number;
-      lastCompletedDate?: string;
-      completedToday: boolean;
-      completionRateLast7: number;
-      completionRateLast30: number;
-      weeklyBreakdown: { weekStart: string; weekEnd: string; completed: number; total: number }[];
-      monthlyBreakdown: { month: string; completed: number; total: number; completionRate: number }[];
-    };
-  }
-> = {
-  "1": {
-    habit: {
-      id: "1",
-      title: "Morning Run",
-      description: "Run 5km every morning before breakfast",
-      color: "#3b82f6",
-      isArchived: false,
-      createdAt: "2026-01-01T00:00:00.000Z",
-    },
-    analytics: {
-      currentStreak: 4,
-      longestStreak: 12,
-      totalCompletions: 38,
-      lastCompletedDate: "2026-02-19T12:00:00.000Z",
-      completedToday: true,
-      completionRateLast7: 86,
-      completionRateLast30: 77,
-      weeklyBreakdown: [
-        { weekStart: "2026-01-25", weekEnd: "2026-01-31", completed: 5, total: 7 },
-        { weekStart: "2026-02-01", weekEnd: "2026-02-07", completed: 7, total: 7 },
-        { weekStart: "2026-02-08", weekEnd: "2026-02-14", completed: 6, total: 7 },
-        { weekStart: "2026-02-15", weekEnd: "2026-02-21", completed: 5, total: 7 },
-      ],
-      monthlyBreakdown: [
-        { month: "2025-09", completed: 20, total: 30, completionRate: 67 },
-        { month: "2025-10", completed: 25, total: 31, completionRate: 81 },
-        { month: "2025-11", completed: 22, total: 30, completionRate: 73 },
-        { month: "2025-12", completed: 28, total: 31, completionRate: 90 },
-        { month: "2026-01", completed: 27, total: 31, completionRate: 87 },
-        { month: "2026-02", completed: 19, total: 28, completionRate: 68 },
-      ],
-    },
-  },
-};
-
-// Fallback for habits without specific dummy data
-const FALLBACK = DUMMY_ANALYTICS["1"];
+import { useUserHabitAnalytics } from "@/hooks/queries/useHabits";
 
 const formatDate = (dateString?: string) => {
   if (!dateString) return "Never";
@@ -103,10 +43,12 @@ const HabitAnalytics = () => {
   const { habitId } = useParams<{ habitId: string }>();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const data = (habitId && DUMMY_ANALYTICS[habitId]) ? DUMMY_ANALYTICS[habitId] : FALLBACK;
-  const { habit, analytics } = data;
+  const { data, isLoading, isError, refetch } = useUserHabitAnalytics(habitId ?? "");
 
-  const statCards = [
+  const habit = data?.habit;
+  const analytics = data?.analytics;
+
+  const statCards = analytics && habit ? [
     {
       label: "Current Streak",
       value: `${analytics.currentStreak} days`,
@@ -149,7 +91,7 @@ const HabitAnalytics = () => {
       bg: "bg-indigo-100",
       iconColor: "text-indigo-600",
     },
-  ];
+  ] : [];
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
@@ -179,102 +121,124 @@ const HabitAnalytics = () => {
             Back to My Habits
           </Link>
 
-          {/* Habit Header */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-1">
-              <div
-                className="w-4 h-4 rounded-full flex-shrink-0"
-                style={{ backgroundColor: habit.color }}
-              />
-              <h1 className="text-3xl font-bold text-gray-900">{habit.title}</h1>
-              {analytics.completedToday && (
-                <span className="text-xs font-semibold bg-green-100 text-green-700 px-2.5 py-1 rounded-full">
-                  Done Today ✓
-                </span>
-              )}
+          {/* Loading */}
+          {isLoading && (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
             </div>
-            {habit.description && (
-              <p className="text-gray-500 ml-7">{habit.description}</p>
-            )}
-          </div>
+          )}
 
-          {/* Stat Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
-            {statCards.map(({ label, value, icon: Icon, bg, iconColor }) => (
-              <Card key={label} className="border-2 border-gray-200">
-                <CardContent className="p-4 flex items-center gap-3">
-                  <div className={`p-2 ${bg} rounded-lg flex-shrink-0`}>
-                    <Icon className={`w-5 h-5 ${iconColor}`} />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs text-gray-500 truncate">{label}</p>
-                    <p className="text-lg font-bold text-gray-900 truncate">{value}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {/* Error */}
+          {isError && (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <p className="text-red-500 font-medium">Failed to load analytics.</p>
+              <Button variant="outline" className="mt-4" onClick={() => refetch()}>
+                Retry
+              </Button>
+            </div>
+          )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Weekly Breakdown */}
-            <Card className="border-2 border-gray-200">
-              <CardHeader>
-                <CardTitle className="text-base flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-blue-500" />
-                  Weekly Breakdown
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {analytics.weeklyBreakdown.map((week) => {
-                  const pct = Math.round((week.completed / week.total) * 100);
-                  return (
-                    <div key={week.weekStart}>
-                      <div className="flex items-center justify-between text-sm mb-1">
-                        <span className="text-gray-600">{formatWeek(week.weekStart, week.weekEnd)}</span>
-                        <span className="font-semibold text-gray-900">
-                          {week.completed}/{week.total} ({pct}%)
-                        </span>
+          {/* Content */}
+          {habit && analytics && (
+            <>
+              {/* Habit Header */}
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-1">
+                  <div
+                    className="w-4 h-4 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: habit.color }}
+                  />
+                  <h1 className="text-3xl font-bold text-gray-900">{habit.title}</h1>
+                  {analytics.completedToday && (
+                    <span className="text-xs font-semibold bg-green-100 text-green-700 px-2.5 py-1 rounded-full">
+                      Done Today ✓
+                    </span>
+                  )}
+                </div>
+                {habit.description && (
+                  <p className="text-gray-500 ml-7">{habit.description}</p>
+                )}
+              </div>
+
+              {/* Stat Cards */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+                {statCards.map(({ label, value, icon: Icon, bg, iconColor }) => (
+                  <Card key={label} className="border-2 border-gray-200">
+                    <CardContent className="p-4 flex items-center gap-3">
+                      <div className={`p-2 ${bg} rounded-lg flex-shrink-0`}>
+                        <Icon className={`w-5 h-5 ${iconColor}`} />
                       </div>
-                      <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full transition-all duration-500"
-                          style={{ width: `${pct}%`, backgroundColor: habit.color }}
-                        />
+                      <div className="min-w-0">
+                        <p className="text-xs text-gray-500 truncate">{label}</p>
+                        <p className="text-lg font-bold text-gray-900 truncate">{value}</p>
                       </div>
-                    </div>
-                  );
-                })}
-              </CardContent>
-            </Card>
-
-            {/* Monthly Breakdown */}
-            <Card className="border-2 border-gray-200">
-              <CardHeader>
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-indigo-500" />
-                  Monthly Breakdown
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {analytics.monthlyBreakdown.map((month) => (
-                  <div key={month.month}>
-                    <div className="flex items-center justify-between text-sm mb-1">
-                      <span className="text-gray-600">{formatMonth(month.month)}</span>
-                      <span className="font-semibold text-gray-900">
-                        {month.completed}/{month.total} ({month.completionRate}%)
-                      </span>
-                    </div>
-                    <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all duration-500"
-                        style={{ width: `${month.completionRate}%`, backgroundColor: habit.color }}
-                      />
-                    </div>
-                  </div>
+                    </CardContent>
+                  </Card>
                 ))}
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Weekly Breakdown */}
+                <Card className="border-2 border-gray-200">
+                  <CardHeader>
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4 text-blue-500" />
+                      Weekly Breakdown
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {analytics.weeklyBreakdown.map((week) => {
+                      const pct = Math.round((week.completed / week.total) * 100);
+                      return (
+                        <div key={week.weekStart}>
+                          <div className="flex items-center justify-between text-sm mb-1">
+                            <span className="text-gray-600">{formatWeek(week.weekStart, week.weekEnd)}</span>
+                            <span className="font-semibold text-gray-900">
+                              {week.completed}/{week.total} ({pct}%)
+                            </span>
+                          </div>
+                          <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full rounded-full transition-all duration-500"
+                              style={{ width: `${pct}%`, backgroundColor: habit.color }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </CardContent>
+                </Card>
+
+                {/* Monthly Breakdown */}
+                <Card className="border-2 border-gray-200">
+                  <CardHeader>
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-indigo-500" />
+                      Monthly Breakdown
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {analytics.monthlyBreakdown.map((month) => (
+                      <div key={month.month}>
+                        <div className="flex items-center justify-between text-sm mb-1">
+                          <span className="text-gray-600">{formatMonth(month.month)}</span>
+                          <span className="font-semibold text-gray-900">
+                            {month.completed}/{month.total} ({month.completionRate}%)
+                          </span>
+                        </div>
+                        <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all duration-500"
+                            style={{ width: `${month.completionRate}%`, backgroundColor: habit.color }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
+            </>
+          )}
         </div>
       </main>
     </div>

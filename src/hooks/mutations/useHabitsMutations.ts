@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createHabit, updateHabit, deleteHabit } from "@/apis/habits";
-import { logHabit, unlogHabit } from "@/apis/habits";
+import { createHabit, updateHabit, deleteHabit, logHabit, unlogHabit, createUserHabit, logUserHabit, updateUserHabit, deleteUserHabit } from "@/apis/habits";
 import {
   CreateHabitInput,
   UpdateHabitInput,
   LogHabitInput,
+  CreateUserHabitInput,
+  UpdateUserHabitInput,
 } from "@/schemas/habitSchema";
 
 export const useCreateHabit = () => {
@@ -84,6 +85,53 @@ export const useUnlogHabit = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["habits"] });
       queryClient.invalidateQueries({ queryKey: ["my-challenges"] });
+    },
+  });
+};
+
+export const useCreateUserHabit = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreateUserHabitInput) => createUserHabit(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-habits"] });
+    },
+  });
+};
+
+export const useLogUserHabit = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (habitId: string) => logUserHabit(habitId),
+    onSuccess: (_, habitId) => {
+      queryClient.invalidateQueries({ queryKey: ["user-habits"] });
+      queryClient.invalidateQueries({ queryKey: ["user-habits", habitId, "analytics"] });
+    },
+  });
+};
+
+export const useUpdateUserHabit = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ habitId, data }: { habitId: string; data: UpdateUserHabitInput }) =>
+      updateUserHabit(habitId, data),
+    onSuccess: (_, { habitId }) => {
+      queryClient.invalidateQueries({ queryKey: ["user-habits"] });
+      queryClient.invalidateQueries({ queryKey: ["user-habits", habitId, "analytics"] });
+    },
+  });
+};
+
+export const useDeleteUserHabit = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (habitId: string) => deleteUserHabit(habitId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-habits"] });
     },
   });
 };

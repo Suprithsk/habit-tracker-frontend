@@ -22,6 +22,7 @@ import {
   Trash2,
   CheckCircle2,
   Target,
+  AlertCircle,
 } from "lucide-react";
 import {
   createHabitSchema,
@@ -41,6 +42,8 @@ const CreateHabits = () => {
   const { data: progressData, isLoading: challengeLoading } = useMyChallengeProgress(challengeId!);
   const challenge = progressData?.challenge;
   const userChallengeId = progressData?.userChallenge?.id ?? '';
+  const todayCompleted = progressData?.todayCompleted ?? false;
+  const challengeCompleted = progressData?.userChallenge?.status === "completed";
   const { data: habits = [], isLoading: habitsLoading } = useHabitsInChallenge(userChallengeId);
   const createHabit = useCreateHabit();
   const deleteHabit = useDeleteHabit();
@@ -134,8 +137,42 @@ const CreateHabits = () => {
             </CardContent>
           </Card>
 
+          {/* Today Completed Banner */}
+          {todayCompleted && !challengeCompleted && (
+            <div className="mb-6 flex items-start gap-4 bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-200 rounded-2xl p-5">
+              <div className="flex-shrink-0 w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                <AlertCircle className="w-5 h-5 text-amber-600" />
+              </div>
+              <div>
+                <p className="font-semibold text-amber-800 text-base">
+                  Adding new habits is disabled after you've completed your first day.
+                </p>
+                <p className="text-sm text-amber-700 mt-0.5">
+                  You've already completed today's session. Come back tomorrow to add more habits!
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Challenge Completed Banner */}
+          {challengeCompleted && (
+            <div className="mb-6 flex items-start gap-4 bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-2xl p-5">
+              <div className="flex-shrink-0 w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+              </div>
+              <div>
+                <p className="font-semibold text-emerald-800 text-base">
+                  Challenge completed!
+                </p>
+                <p className="text-sm text-emerald-700 mt-0.5">
+                  This challenge is finished. You can no longer add or remove habits.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Create Habit Form */}
-          <Card className="mb-6 border-2 border-gray-200">
+          <Card className={`mb-6 border-2 ${todayCompleted || challengeCompleted ? "border-gray-100 opacity-60 pointer-events-none" : "border-gray-200"}`}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Plus className="w-5 h-5 text-blue-500" />
@@ -251,7 +288,7 @@ const CreateHabits = () => {
                         variant="ghost"
                         size="icon"
                         onClick={() => handleDeleteHabit(habit.id)}
-                        disabled={deletingIds.has(habit.id)}
+                        disabled={deletingIds.has(habit.id) || todayCompleted || challengeCompleted}
                         className="text-gray-400 hover:text-red-500 hover:bg-red-50"
                       >
                         {deletingIds.has(habit.id) ? (
