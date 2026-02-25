@@ -154,3 +154,50 @@ export interface UserHabitLog {
   id: string;
   dateCompleted: string;
 }
+
+// Public profile types
+export interface PublicProfileUser {
+  id: string;
+  name: string;
+  avatar: string | null;
+  memberSince: string;
+}
+
+export interface PublicChallengeStats {
+  totalEnrollments: number;
+  completed: number;
+  active: number;
+  failed: number;
+  completionRate: number;
+  totalCompletedDays: number;
+  bestStreak: number;
+}
+
+export interface PublicActiveChallenge {
+  challengeTitle: string;
+  durationDays: number;
+  completedDays: number;
+  currentStreak: number;
+  livesRemaining: number;
+  startDate: string;
+}
+
+export interface PublicCompletedChallenge {
+  challengeTitle: string;
+  durationDays: number;
+  completedDays: number;
+  completedOn: string;
+}
+
+export interface PublicPersonalHabits {
+  activeCount: number;
+  totalLogs: number;
+}
+
+export interface PublicProfile {
+  user: PublicProfileUser;
+  challengeStats: PublicChallengeStats;
+  activeChallenges: PublicActiveChallenge[];
+  completedChallenges: PublicCompletedChallenge[];
+  personalHabits: PublicPersonalHabits;
+}

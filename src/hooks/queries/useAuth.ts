@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMe, getAllUsers } from '@/apis/auth';
+import { getMe, getAllUsers, getUserPublicProfile } from '@/apis/auth';
 
 export const useMe = () => {
   return useQuery({
@@ -14,5 +14,14 @@ export const useAllUsers = () => {
   return useQuery({
     queryKey: ['users'],
     queryFn: getAllUsers,
+  });
+};
+
+export const useUserPublicProfile = (userId: string) => {
+  return useQuery({
+    queryKey: ['public-profile', userId],
+    queryFn: () => getUserPublicProfile(userId),
+    enabled: !!userId,
+    staleTime: 1000 * 60 * 5,
   });
 };

@@ -161,44 +161,38 @@ const HabitsChallenge = () => {
           )}
           {/* Completed Banner */}
           {userChallenge?.status === "completed" && (
-            <div className="mb-6 rounded-2xl overflow-hidden border-2 border-emerald-200">
-              <div className="bg-gradient-to-r from-emerald-500 to-teal-500 p-8 flex flex-col items-center text-center">
-                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                  <PartyPopper className="w-10 h-10 text-white" />
+            <div className="mb-6 rounded-2xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50 p-6">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-5">
+                {/* Icon */}
+                <div className="w-14 h-14 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md">
+                  <PartyPopper className="w-7 h-7 text-white" />
                 </div>
-                <h2 className="text-3xl font-bold text-white mb-2">Challenge Completed! 🎉</h2>
-                <p className="text-emerald-100 text-lg mb-1">{challenge!.title}</p>
-                <p className="text-emerald-100/80 text-sm">
-                  You completed {progress?.completedDays ?? 0} of {challenge!.durationDays} days
-                </p>
-              </div>
-              <div className="bg-white p-6">
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="text-center p-4 bg-emerald-50 rounded-xl">
-                    <Flame className="w-6 h-6 text-orange-500 mx-auto mb-1" />
-                    <p className="text-xs text-gray-500">Best Streak</p>
-                    <p className="text-xl font-bold text-gray-900">{progress?.currentStreak ?? 0}</p>
+
+                {/* Text */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-lg font-bold text-gray-900">Challenge Completed!</h3>
                   </div>
-                  <div className="text-center p-4 bg-emerald-50 rounded-xl">
-                    <Trophy className="w-6 h-6 text-yellow-500 mx-auto mb-1" />
-                    <p className="text-xs text-gray-500">Days Done</p>
-                    <p className="text-xl font-bold text-gray-900">{progress?.completedDays ?? 0}</p>
-                  </div>
-                  <div className="text-center p-4 bg-emerald-50 rounded-xl">
-                    <Heart className="w-6 h-6 text-red-500 mx-auto mb-1" />
-                    <p className="text-xs text-gray-500">Lives Left</p>
-                    <p className="text-xl font-bold text-gray-900">{userChallenge.livesRemaining}</p>
-                  </div>
+                  <p className="text-sm text-gray-600">
+                    You finished <span className="font-semibold text-gray-800">{challenge!.title}</span> —{" "}
+                    <span className="font-semibold text-gray-800">{progress?.completedDays ?? 0} days</span> completed with a best streak of{" "}
+                    <span className="inline-flex items-center gap-1 font-semibold text-orange-500">
+                      <Flame className="w-3.5 h-3.5" />{progress?.currentStreak ?? 0}
+                    </span>{" "}
+                    and{" "}
+                    <span className="inline-flex items-center gap-1 font-semibold text-red-400">
+                      <Heart className="w-3.5 h-3.5" />{userChallenge.livesRemaining} lives remaining
+                    </span>.
+                  </p>
                 </div>
-                <p className="text-center text-gray-600 mb-4">
-                  Want to go again? Re-enroll to start fresh from Day 1.
-                </p>
+
+                {/* CTA */}
                 <Button
                   onClick={() => joinChallenge.mutate({ challengeId: challenge!.id })}
                   disabled={joinChallenge.isPending}
-                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold py-6"
+                  className="flex-shrink-0 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold shadow-sm"
                 >
-                  {joinChallenge.isPending ? "Enrolling..." : "Re-enroll in Challenge"}
+                  {joinChallenge.isPending ? "Enrolling..." : "Re-enroll"}
                 </Button>
               </div>
             </div>

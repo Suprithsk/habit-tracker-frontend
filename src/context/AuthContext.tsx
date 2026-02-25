@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User } from '@/types/types';
+import { queryClient } from '@/lib/queryClient';
 
 interface AuthContextType {
   user: User | null;
@@ -32,6 +33,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const loginContext = (newToken: string, newUser: User) => {
+    // Clear any cached data from a previous session before setting new user
+    queryClient.clear();
     localStorage.setItem('token', newToken);
     localStorage.setItem('user', JSON.stringify(newUser));
     setToken(newToken);
@@ -43,6 +46,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('user');
     setToken(null);
     setUser(null);
+    // Clear all cached query data so next user starts fresh
+    queryClient.clear();
     navigate('/login');
   };
 

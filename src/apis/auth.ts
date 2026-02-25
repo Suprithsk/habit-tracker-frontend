@@ -1,7 +1,7 @@
 import apiClient from "./apiClient";
 import { AxiosError } from "axios";
 import { RegisterInput, LoginInput, UpdateProfileInput, ChangePasswordInput } from "../schemas/authSchema";
-import { User, AuthResponse } from "@/types/types";
+import { User, AuthResponse, PublicProfile } from "@/types/types";
 
 export const login = async (credentials: LoginInput): Promise<AuthResponse> => {
   try {
@@ -74,6 +74,20 @@ export const changePassword = async (data: ChangePasswordInput): Promise<{ messa
       }
     }
     throw new Error("Failed to change password");
+  }
+};
+
+export const getUserPublicProfile = async (userId: string): Promise<PublicProfile> => {
+  try {
+    const response = await apiClient.get(`/users/${userId}/profile`);
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error?.response?.data?.error) {
+        throw new Error(error.response.data.error);
+      }
+    }
+    throw new Error("Failed to fetch user profile");
   }
 };
 

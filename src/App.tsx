@@ -11,6 +11,8 @@ import CreateHabits from "./pages/CreateHabits";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserHabits from "./pages/UserHabits";
 import HabitAnalytics from "./pages/HabitAnalytics";
+import Profile from "./pages/Profile";
+import PublicProfile from "./pages/PublicProfile";
 
 function App() {
   return (
@@ -77,6 +79,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/public/:userId" element={<PublicProfile />} />
         </Routes>
       </div>
     </AuthProvider>

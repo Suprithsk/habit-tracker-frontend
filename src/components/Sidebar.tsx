@@ -1,6 +1,7 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Target, LayoutDashboard, Trophy, List, Palette, User, LogOut, X, BookOpen } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Target, LayoutDashboard, Trophy, List, User, LogOut, X, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/useAuth";
 
 
 interface SidebarProps {
@@ -10,12 +11,7 @@ interface SidebarProps {
 
 const Sidebar = ({ isOpen = true, onClose }: SidebarProps) => {
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+  const { logout } = useAuth();
 
   const menuItems = [
     {
@@ -110,14 +106,7 @@ const Sidebar = ({ isOpen = true, onClose }: SidebarProps) => {
 
         {/* Bottom Section */}
         <div className="p-4 border-t border-gray-800 space-y-2">
-          <Link
-            to="/theme"
-            onClick={handleNavigation}
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition-all duration-200"
-          >
-            <Palette className="w-5 h-5 flex-shrink-0" />
-            <span className="font-medium">Theme</span>
-          </Link>
+        
           <Link
             to="/profile"
             onClick={handleNavigation}
@@ -127,7 +116,7 @@ const Sidebar = ({ isOpen = true, onClose }: SidebarProps) => {
             <span className="font-medium">My Profile</span>
           </Link>
           <Button
-            onClick={handleLogout}
+            onClick={logout}
             variant="ghost"
             className="w-full justify-start gap-3 px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white"
           >
