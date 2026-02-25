@@ -6,7 +6,7 @@ import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWorks";
 import Navbar from "./components/Navbar";
 import Testimonials from "./components/Testimonials";
-import { Analytics } from "@vercel/analytics/react"
+
 const Index = () => {
   return (
     <>
@@ -18,7 +18,7 @@ const Index = () => {
       <Testimonials />
       <CTA />
       <Footer />
-      <Analytics />
+      
     </>
   );
 };

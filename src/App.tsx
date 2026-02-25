@@ -13,9 +13,11 @@ import UserHabits from "./pages/UserHabits";
 import HabitAnalytics from "./pages/HabitAnalytics";
 import Profile from "./pages/Profile";
 import PublicProfile from "./pages/PublicProfile";
-
+import { Analytics } from "@vercel/analytics/react"
 function App() {
   return (
+    <>
+    <Analytics />
     <AuthProvider>
       <div className="min-h-screen bg-gray-50">
         <Routes>
@@ -91,6 +93,7 @@ function App() {
         </Routes>
       </div>
     </AuthProvider>
+    </>
   );
 }
 
