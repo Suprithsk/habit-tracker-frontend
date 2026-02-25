@@ -12,6 +12,7 @@ export const registerSchema = z.object({
     .string()
     .min(6, "Password must be at least 6 characters")
     .max(100, "Password must be less than 100 characters"),
+  timezone: z.string().optional(),
 });
 
 export const loginSchema = z.object({
@@ -33,6 +34,7 @@ export const updateProfileSchema = z.object({
     .string()
     .url("Invalid avatar URL")
     .optional(),
+  timezone: z.string().optional(),
 });
 
 export const changePasswordSchema = z.object({

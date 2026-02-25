@@ -43,7 +43,8 @@ const Signup = () => {
     setError("");
 
     try {
-      await register(data);
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      await register({ ...data, timezone });
 
       // Redirect to login after successful registration
       navigate("/login", { 

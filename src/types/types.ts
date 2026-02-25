@@ -4,6 +4,7 @@ export interface User {
   email: string;
   role: 'user' | 'admin';
   avatar?: string;
+  timezone?: string;
   createdAt: string;
 }
 

@@ -137,6 +137,21 @@ const CreateHabits = () => {
             </CardContent>
           </Card>
 
+          {/* Persistent Warning */}
+          {!challengeCompleted && (
+            <div className="mb-6 flex items-start gap-3 bg-red-50 border-2 border-red-200 rounded-2xl p-4">
+              <div className="flex-shrink-0 w-9 h-9 bg-red-100 rounded-full flex items-center justify-center">
+                <AlertCircle className="w-5 h-5 text-red-600" />
+              </div>
+              <div>
+                <p className="font-semibold text-red-700">Add all your habits at once</p>
+                <p className="text-sm text-red-600 mt-0.5">
+                  Once you complete your first day, you won't be able to add or remove habits. Make sure to add everything you want to track before logging your first day.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Today Completed Banner */}
           {todayCompleted && !challengeCompleted && (
             <div className="mb-6 flex items-start gap-4 bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-200 rounded-2xl p-5">
